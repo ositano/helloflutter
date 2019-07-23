@@ -1,6 +1,8 @@
-//import 'dart:convert';
 import 'package:meta/meta.dart';
 
+/*
+pojo class that models data from github api v3
+ */
 class Developer {
   Developer({
     @required this.login,
@@ -42,26 +44,6 @@ class Developer {
     this.type = map['type'];
   }
 
-  /*
-  final String login;
-  final int id;
-  final String node_id;
-  final String avatar_url;
-  final String gravatar_id;
-  final String url;
-  final String html_url;
-  final String followers_url;
-  final String following_url;
-  final String gists_url;
-  final String starred_url;
-  final String subscriptions_url;
-  final String organizations_url;
-  final String repos_url;
-  final String events_url;
-  final String received_events_url;
-  final String type;
-  final bool site_admin;
-  */
   String login;
   int id;
   String node_id;
@@ -97,41 +79,6 @@ class Developer {
   String get getEvents_url => events_url;
   String get getReceived_events_url => received_events_url;
   String get getType => type;
-
-  /*
-  static List<Developer> allFromResponse(String response) {
-    var decodedJson = json.decode(response).cast<String, dynamic>();
-
-    return decodedJson
-        .cast<Map<String, dynamic>>()
-        .map((obj) => Developer.fromMap(obj))
-        .toList()
-        .cast<Developer>();
-  }
-
-  static Developer fromMap(Map map) {
-     return new Developer(
-      login: map['login'],
-      id: map['id'],
-      node_id: map['node_id'],
-      avatar_url: map['avatar_url'],
-      gravatar_id: map['gravatar_id'],
-      url: map['url'],
-      html_url: map['html_url'],
-      followers_url: map['followers_url'],
-      following_url: map['followering_url'],
-      gists_url: map['gists_url'],
-      starred_url: map['starred_url'],
-      subscriptions_url: map['subscriptions_url'],
-      organizations_url: map['organizations_url'],
-      repos_url: map['repos_url'],
-      events_url: map['events_url'],
-      received_events_url: map['received_events_url'],
-      type: map['type'],
-      site_admin: map['site_admin']
-    );
-  }
-  */
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();

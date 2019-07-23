@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:hello_flutter/models/Developer.dart';
@@ -38,7 +37,6 @@ class DatabaseHelper {
       return _db;
     }
     _db = await initDb();
-
     return _db;
   }
 
@@ -56,11 +54,14 @@ class DatabaseHelper {
 
   Future<int> saveDeveloper(Developer developer) async {
     var dbClient = await db;
-    var count = Sqflite.firstIntValue(await dbClient.rawQuery("SELECT COUNT(*) FROM $tableDeveloper WHERE $columnId = ?", [developer.id]));
+    var count = Sqflite.firstIntValue(await dbClient.rawQuery(
+        "SELECT COUNT(*) FROM $tableDeveloper WHERE $columnId = ?",
+        [developer.id]));
     if (count == 0) {
       return await dbClient.insert(tableDeveloper, developer.toMap());
     } else {
-      return await dbClient.update(tableDeveloper, developer.toMap(), where: "$columnId = ?", whereArgs: [developer.id]);
+      return await dbClient.update(tableDeveloper, developer.toMap(),
+          where: "$columnId = ?", whereArgs: [developer.id]);
     }
   }
 
@@ -70,23 +71,41 @@ class DatabaseHelper {
     sql = "SELECT * FROM $tableDeveloper";
     var result = await dbClient.rawQuery(sql);
     if (result.length == 0) return new List<Developer>();
-
     List<Developer> list = result.map((item) {
       return Developer.fromMap(item);
     }).toList();
-
     return list;
   }
 
   Future<int> getCount() async {
     var dbClient = await db;
-    return Sqflite.firstIntValue(await dbClient.rawQuery('SELECT COUNT(*) FROM $tableDeveloper'));
+    return Sqflite.firstIntValue(
+        await dbClient.rawQuery('SELECT COUNT(*) FROM $tableDeveloper'));
   }
 
   Future<Developer> getDeveloper(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableDeveloper,
-        columns: [columnId, columnLogin, columnNode_id, columnNode_id, columnAvatar_url, columnGravatar_id, columnUrl, columnHtml_url, columnFollowers_url, columnFollowing_url, columnGists_url, columnStarred_url, columnSubscriptions_url, columnOrganizations_url, columnRepos_url, columnEvents_url, columnReceived_events_url, columnType],
+        columns: [
+          columnId,
+          columnLogin,
+          columnNode_id,
+          columnNode_id,
+          columnAvatar_url,
+          columnGravatar_id,
+          columnUrl,
+          columnHtml_url,
+          columnFollowers_url,
+          columnFollowing_url,
+          columnGists_url,
+          columnStarred_url,
+          columnSubscriptions_url,
+          columnOrganizations_url,
+          columnRepos_url,
+          columnEvents_url,
+          columnReceived_events_url,
+          columnType
+        ],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (result.length > 0) {
@@ -97,12 +116,14 @@ class DatabaseHelper {
 
   Future<int> deleteDeveloper(int id) async {
     var dbClient = await db;
-    return await dbClient.delete(tableDeveloper, where: '$columnId = ?', whereArgs: [id]);
- }
+    return await dbClient
+        .delete(tableDeveloper, where: '$columnId = ?', whereArgs: [id]);
+  }
 
   Future<int> updateDeveloper(Developer developer) async {
     var dbClient = await db;
-    return await dbClient.update(tableDeveloper, developer.toMap(), where: "$columnId = ?", whereArgs: [developer.id]);
+    return await dbClient.update(tableDeveloper, developer.toMap(),
+        where: "$columnId = ?", whereArgs: [developer.id]);
   }
 
   Future close() async {
